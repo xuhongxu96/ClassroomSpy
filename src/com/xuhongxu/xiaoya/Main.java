@@ -30,8 +30,8 @@ public class Main {
 
             int port = 9610;
 
-            if (args.length > 1) {
-                port = Integer.valueOf(args[1]);
+            if (args.length > 0) {
+                port = Integer.valueOf(args[0]);
             }
 
             server = HttpServer.create(new InetSocketAddress(port), 0);
