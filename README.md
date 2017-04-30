@@ -2,7 +2,7 @@ Classroom Spy
 ===
 Spy on Classroom (number of seats, has course...) for Beijing Normal University.
 
-Also is a HTTP Server.
+Also is a HTTP Server. (Default Port: 9610)
 
 - Get buildings list: `GET /buildings`  
     Format: `Building Id,Building Name,...,Building Id, Building Name`
