@@ -27,7 +27,14 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            server = HttpServer.create(new InetSocketAddress(8080), 0);
+
+            int port = 9610;
+
+            if (args.length > 1) {
+                port = Integer.valueOf(args[1]);
+            }
+
+            server = HttpServer.create(new InetSocketAddress(port), 0);
             server.createContext("/buildings", httpExchange -> {
 
                 System.out.println(new Date().toString() + "  GET /buildings  IP: " + httpExchange.getRemoteAddress().getHostString());
