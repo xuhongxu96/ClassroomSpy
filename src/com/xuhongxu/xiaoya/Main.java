@@ -82,6 +82,7 @@ public class Main {
                                 for (Seat seat : seats) {
                                     String name = seat.getRoomName();
                                     payload += name + "," +
+                                            seat.txTime + "," +
                                             seat.peopleNum + "," +
                                             seat.remainingSeats + "," +
                                             seat.totalSeats;
