@@ -1,6 +1,5 @@
 package com.xuhongxu.xiaoya;
 
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 import com.xuhongxu.xiaoya.model.Building;
 import com.xuhongxu.xiaoya.model.Seat;
