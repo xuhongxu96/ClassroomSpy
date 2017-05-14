@@ -106,6 +106,7 @@ public class RoomSpy {
             String[] date = res.body().split("@");
             info.week = date[0];
             info.day = date[1];
+            if ("0".equals(info.day)) info.day = "7";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,12 +115,14 @@ public class RoomSpy {
 
     public static void spy() {
         System.out.println(new Date().toString() + "  Started: Spy on Room");
+        ArrayList<HashMap<String, Room>> tempRooms = new ArrayList<>(12);
+        tempRooms.clear();
+        for (int i = 1; i <= 12; ++i) {
+            tempRooms.add(fetchRoom(fetchDate(), i, i));
+        }
         lock.lock();
         try {
-            rooms.clear();
-            for (int i = 1; i <= 12; ++i) {
-                rooms.add(fetchRoom(fetchDate(), i, i));
-            }
+            rooms = tempRooms;
         } finally {
             lock.unlock();
             System.out.println(new Date().toString() + "  Finished: Spy on Room");
