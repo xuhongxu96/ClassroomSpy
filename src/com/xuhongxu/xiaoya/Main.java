@@ -112,7 +112,7 @@ public class Main {
             server.start();
 
             roomSpyService.scheduleAtFixedRate(RoomSpy::spy, 0, 6, TimeUnit.HOURS);
-            seatSpyService.scheduleAtFixedRate(SeatSpy::spy, 0, 1, TimeUnit.MINUTES);
+            seatSpyService.scheduleAtFixedRate(SeatSpy::spy, 0, 8, TimeUnit.HOURS);
         } catch (IOException e) {
             e.printStackTrace();
         }

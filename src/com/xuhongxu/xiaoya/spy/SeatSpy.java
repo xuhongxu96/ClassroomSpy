@@ -24,30 +24,29 @@ public class SeatSpy {
 
     static ReentrantLock lock = new ReentrantLock();
 
-    private static HashMap<String, Building> fetchBuildings() {
 
+    private static HashMap<String, Building> fetchBuildings() {
         HashMap<String, Building> buildings = new HashMap<>();
 
         try {
-            Connection.Response res = Jsoup.connect("http://219.224.19.121:8086/magus/findseatapi/loadBuildingsList?")
+            Connection.Response res = Jsoup.connect("http://zyfw.prsc.bnu.edu.cn/frame/droplist/getDropLists.action")
                     .timeout(timeout)
-                    .method(Connection.Method.GET)
-                    .ignoreContentType(true)
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
+                    .data("comboBoxName", "MsSchoolArea_PUBLIC_LF")
+                    .data("paramValue", "ssxq=0&sybm_m=00")
+                    .method(Connection.Method.POST)
                     .execute();
 
-            JSONObject jsonObject = new JSONObject(res.body());
-            jsonObject = jsonObject.getJSONObject("result");
-            JSONArray jsonArray = jsonObject.getJSONArray("buildingList");
-            for (Object obj : jsonArray) {
-                JSONObject buildingObject = (JSONObject) obj;
-                buildings.put(buildingObject.getString("buildId"), new Building(
-                        buildingObject.getString("buildId"),
-                        buildingObject.getString("buildName"),
-                        Integer.valueOf(buildingObject.getString("roomNum"))
-                ));
-            }
+            JSONArray arr = new JSONArray(res.body());
 
-        } catch (IOException e) {
+            for(int i = 0; i < arr.length(); ++i) {
+                JSONObject o = arr.getJSONObject(i);
+                String code = o.getString("code");
+                String name = o.getString("name");
+                buildings.put(code, new Building(code, name, 0));
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return buildings;
@@ -57,30 +56,28 @@ public class SeatSpy {
         ArrayList<Seat> seats = new ArrayList<>();
 
         try {
-            Connection.Response res = Jsoup.connect("http://219.224.19.121:8086/magus/findseatapi/loadClassRoomList")
+            Connection.Response res = Jsoup.connect("http://zyfw.prsc.bnu.edu.cn/frame/droplist/getDropLists.action")
                     .timeout(timeout)
-                    .data("params", "{ \"buildId\": \"" + buildingId + "\", \"searchType\": \"0\" }")
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
+                    .data("comboBoxName", "MsSchoolArea_PUBLIC_LF_JS")
+                    .data("paramValue", "xq_m=0&ssjzw_m=" + buildingId + "&jslx_m=&sybm_m=00")
                     .method(Connection.Method.POST)
-                    .ignoreContentType(true)
                     .execute();
 
-            JSONObject jsonObject = new JSONObject(res.body());
-            jsonObject = jsonObject.getJSONObject("result");
-            JSONArray jsonArray = jsonObject.getJSONArray("roomSeatCountList");
-            for (Object obj : jsonArray) {
-                JSONObject o = (JSONObject) obj;
-                seats.add(new Seat(
-                        o.getString("buildId"),
-                        o.getString("buildName"),
-                        o.getInt("lastSeats"),
-                        o.getInt("totalSeats"),
-                        o.getInt("personQty"),
-                        o.getString("roomId"),
-                        o.getString("roomName"),
-                        o.getString("txTime")
-                        ));
+            JSONArray arr = new JSONArray(res.body());
+
+            for(int i = 0; i < arr.length(); ++i) {
+                JSONObject o = arr.getJSONObject(i);
+                String code = o.getString("code");
+                String name = o.getString("name");
+                name = name.substring(name.indexOf(']') + 1);
+                name = name.substring(0, name.indexOf('['));
+                seats.add(new Seat(buildingId, buildings.get(buildingId).name,
+                        0, 0, 0,
+                        code, name, ""));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

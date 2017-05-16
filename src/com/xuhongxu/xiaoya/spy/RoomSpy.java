@@ -130,7 +130,7 @@ public class RoomSpy {
     }
 
     private static String extractRoomName(String room) {
-        return room.substring(1, room.indexOf("("));
+        return room.substring(0, room.indexOf("("));
     }
 
     public static ArrayList<HashSet<String>> getRoom(String buildingName) {
