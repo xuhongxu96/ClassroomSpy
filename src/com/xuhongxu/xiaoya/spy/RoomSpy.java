@@ -118,6 +118,7 @@ public class RoomSpy {
         ArrayList<HashMap<String, Room>> tempRooms = new ArrayList<>(12);
         tempRooms.clear();
         for (int i = 1; i <= 12; ++i) {
+            System.out.println(new Date().toString() + "  Started: Spy on Room " + i);
             tempRooms.add(fetchRoom(fetchDate(), i, i));
         }
         lock.lock();
@@ -140,6 +141,10 @@ public class RoomSpy {
                 ArrayList<HashSet<String>> res = new ArrayList<>();
                 for (int i = 0; i < 12; ++i) {
                     HashSet<String> roomSet = new HashSet<>();
+                    if (!rooms.get(i).containsKey(buildingName)) {
+                        res.add(roomSet);
+                        continue;
+                    }
                     for (String roomName : rooms.get(i).get(buildingName).getRoomList()) {
                         roomSet.add(extractRoomName(roomName));
                     }
