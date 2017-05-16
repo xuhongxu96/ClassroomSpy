@@ -61,9 +61,6 @@ public class RoomSpy {
                     try {
                         Room room = new Room();
                         room.building = tr.child(2).text();
-                        if (room.building.equals("教十楼(物理楼)")) {
-                            room.building = "教十楼";
-                        }
                         room.rooms = tr.child(3).text();
                         rooms.put(room.building, room);
                     } catch (Exception e) {
