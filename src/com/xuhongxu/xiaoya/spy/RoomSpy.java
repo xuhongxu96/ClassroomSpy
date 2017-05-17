@@ -134,7 +134,7 @@ public class RoomSpy {
     public static ArrayList<HashSet<String>> getRoom(String buildingName) {
         lock.lock();
         try {
-            if (rooms.size() == 12 && rooms.get(0) != null && rooms.get(0).containsKey(buildingName)) {
+            if (rooms.size() == 12 && rooms.get(0) != null) {
                 ArrayList<HashSet<String>> res = new ArrayList<>();
                 for (int i = 0; i < 12; ++i) {
                     HashSet<String> roomSet = new HashSet<>();
