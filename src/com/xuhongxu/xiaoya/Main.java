@@ -27,7 +27,7 @@ public class Main {
 
         try {
 
-            int port = 9610;
+            int port = 8012;
 
             if (args.length > 0) {
                 port = Integer.valueOf(args[0]);
