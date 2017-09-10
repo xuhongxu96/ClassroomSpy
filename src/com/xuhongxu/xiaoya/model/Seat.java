@@ -9,23 +9,19 @@ public class Seat {
     public String roomId, roomName;
     public String txTime;
 
-    public Seat(String buildId, String buildName, int remainingSeats, int totalSeats, int peopleNum,
-                String roomId, String roomName, String txTime) {
+    public Seat(String buildId, String buildName, String roomId, String roomName) {
         this.buildId = buildId;
         this.buildName = buildName;
-        this.remainingSeats = remainingSeats;
-        this.totalSeats = totalSeats;
-        this.peopleNum = peopleNum;
         this.roomId = roomId;
+
+        if (roomName.contains("]")) {
+            roomName = roomName.substring(roomName.indexOf("]") + 1);
+            if (roomName.contains("[")) {
+                roomName = roomName.substring(0, roomName.indexOf("["));
+            }
+        }
+
         this.roomName = roomName;
-        this.txTime = txTime;
     }
 
-    public String getRoomName() {
-        String[] names = roomName.split("-");
-        if (names.length == 2) {
-            return names[1];
-        }
-        return roomName;
-    }
 }

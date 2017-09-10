@@ -130,18 +130,20 @@ public class RoomSpy {
     }
 
     private static String extractRoomName(String room) {
-        return room.substring(1, room.indexOf("("));
+        return room.substring(0, room.indexOf("("));
     }
 
     public static ArrayList<HashSet<String>> getRoom(String buildingName) {
         lock.lock();
         try {
-            if (rooms.size() == 12 && rooms.get(0) != null && rooms.get(0).containsKey(buildingName)) {
+            if (rooms.size() == 12 && rooms.get(0) != null) {
                 ArrayList<HashSet<String>> res = new ArrayList<>();
                 for (int i = 0; i < 12; ++i) {
                     HashSet<String> roomSet = new HashSet<>();
-                    for (String roomName : rooms.get(i).get(buildingName).getRoomList()) {
-                        roomSet.add(extractRoomName(roomName));
+                    if (rooms.get(i) != null && rooms.get(i).containsKey(buildingName)) {
+                        for (String roomName : rooms.get(i).get(buildingName).getRoomList()) {
+                            roomSet.add(extractRoomName(roomName));
+                        }
                     }
                     res.add(roomSet);
                 }

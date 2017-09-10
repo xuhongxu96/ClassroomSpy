@@ -5,11 +5,17 @@ package com.xuhongxu.xiaoya.model;
  */
 public class Building {
     public String id, name;
+    public String peopleCountId;
     public int roomNum;
 
-    public Building(String id, String name, int roomNum) {
+    public Building(String id, String name) {
         this.id = id;
+
+        if (name.contains("("))
+        {
+            name = name.substring(0, name.indexOf("("));
+        }
+
         this.name = name;
-        this.roomNum = roomNum;
     }
 }

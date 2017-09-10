@@ -66,7 +66,7 @@ public class Main {
                 System.out.println(new Date().toString() + "  GET " + id
                         + "  IP: " + httpExchange.getRemoteAddress().getHostString());
 
-                String payload = "error";
+                StringBuilder payload = new StringBuilder("error");
                 try {
                     id = id.substring(10);
 
@@ -76,23 +76,19 @@ public class Main {
                         if (building != null) {
                             ArrayList<HashSet<String>> rooms = RoomSpy.getRoom(building.name);
                             if (rooms != null) {
-                                payload = "";
+                                payload = new StringBuilder();
 
                                 for (Seat seat : seats) {
-                                    String name = seat.getRoomName();
-                                    payload += name + "," +
-                                            seat.txTime + "," +
-                                            seat.peopleNum + "," +
-                                            seat.remainingSeats + "," +
-                                            seat.totalSeats;
+                                    String name = seat.roomName;
+                                    payload.append(name).append(",").append(seat.txTime).append(",").append(seat.peopleNum).append(",").append(seat.remainingSeats).append(",").append(seat.totalSeats);
                                     for (int i = 0; i < 12; ++i) {
                                         if (rooms.get(i).contains(name)) {
-                                            payload += "," + "1";
+                                            payload.append("," + "1");
                                         } else {
-                                            payload += "," + "0";
+                                            payload.append("," + "0");
                                         }
                                     }
-                                    payload += ";\n";
+                                    payload.append(";\n");
                                 }
                             }
                         }
@@ -101,9 +97,9 @@ public class Main {
                     e.printStackTrace();
                 } finally {
                     httpExchange.getResponseHeaders().set("Content-Type", "text/text; charset=utf-8");
-                    httpExchange.sendResponseHeaders(200, payload.getBytes().length);
+                    httpExchange.sendResponseHeaders(200, payload.toString().getBytes().length);
                     final OutputStream output = httpExchange.getResponseBody();
-                    output.write(payload.getBytes());
+                    output.write(payload.toString().getBytes());
                     output.flush();
                     httpExchange.close();
                 }
