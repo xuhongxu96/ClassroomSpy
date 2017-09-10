@@ -80,7 +80,8 @@ public class Main {
 
                                 for (Seat seat : seats) {
                                     String name = seat.roomName;
-                                    payload.append(name).append(",").append(seat.txTime).append(",").append(seat.peopleNum).append(",").append(seat.remainingSeats).append(",").append(seat.totalSeats);
+                                    String showName = simplifyName(name);
+                                    payload.append(showName).append(",").append(seat.txTime).append(",").append(seat.peopleNum).append(",").append(seat.remainingSeats).append(",").append(seat.totalSeats);
                                     for (int i = 0; i < 12; ++i) {
                                         if (rooms.get(i).contains(name)) {
                                             payload.append("," + "1");
@@ -113,5 +114,25 @@ public class Main {
             e.printStackTrace();
         }
 
+    }
+
+    private static String simplifyName(String name) {
+
+        if (name.startsWith("邱季端")) {
+            name = name.substring(3);
+            if (name.startsWith("-")) {
+                name = name.substring(1);
+            }
+            return name;
+        }
+
+        if (name.length() > 3) {
+            String last3 = name.substring(name.length() - 3);
+            if (last3.matches("\\d\\d\\d")) {
+                return last3;
+            }
+        }
+
+        return name;
     }
 }
