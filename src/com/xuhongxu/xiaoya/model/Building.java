@@ -5,8 +5,6 @@ package com.xuhongxu.xiaoya.model;
  */
 public class Building {
     public String id, name;
-    public String peopleCountId;
-    public int roomNum;
 
     public Building(String id, String name) {
         this.id = id;
