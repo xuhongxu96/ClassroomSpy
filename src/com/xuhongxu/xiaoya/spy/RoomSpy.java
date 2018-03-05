@@ -174,7 +174,8 @@ public class RoomSpy {
                             roomInBuilding = roomInBuilding.substring(1);
                         }
 
-                        if (roomInBuilding.startsWith("邱季端")) {
+                        if (roomInBuilding.startsWith("邱季端")
+                                || roomInBuilding.startsWith("科技楼")) {
                             roomInBuilding = roomInBuilding.substring(3);
                         }
 
