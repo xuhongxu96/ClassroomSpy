@@ -172,11 +172,10 @@ public class RoomSpy {
                                 || roomInBuilding.startsWith("艺")
                         )) {
                             roomInBuilding = roomInBuilding.substring(1);
-                        }
-
-                        if (roomInBuilding.startsWith("邱季端")
-                                || roomInBuilding.startsWith("科技楼")) {
+                        } else if (roomInBuilding.startsWith("邱季端")) {
                             roomInBuilding = roomInBuilding.substring(3);
+                        } else if (roomInBuilding.startsWith("科技楼C区")) {
+                            roomInBuilding = roomInBuilding.substring(5);
                         }
 
                         roomCapacity = Integer.valueOf(roomRawNameInBuilding.substring(tempPos + 1,
