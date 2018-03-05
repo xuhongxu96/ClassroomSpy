@@ -71,7 +71,7 @@ public class RoomSpy {
                         List<String> roomList = Arrays.asList(tr.child(3).text().split("; "));
 
                         for (String roomRawName : roomList) {
-                            String roomName = building + extractRoomName(roomRawName);
+                            String roomName = building + roomRawName;
                             if (!roomsIsEmpty.containsKey(roomName)) {
                                 roomsIsEmpty.put(roomName, new boolean[12]);
                             }
@@ -160,11 +160,29 @@ public class RoomSpy {
                     int tempPos = roomRawNameInBuilding.indexOf("(");
                     if (tempPos != -1) {
                         roomInBuilding = roomRawNameInBuilding.substring(0, tempPos);
+
+                        if (roomInBuilding.length() == 4
+                                && (roomInBuilding.startsWith("二")
+                                || roomInBuilding.startsWith("八")
+                                || roomInBuilding.startsWith("七")
+                                || roomInBuilding.startsWith("九")
+                                || roomInBuilding.startsWith("十")
+                                || roomInBuilding.startsWith("四")
+                                || roomInBuilding.startsWith("电")
+                                || roomInBuilding.startsWith("艺")
+                        )) {
+                            roomInBuilding = roomInBuilding.substring(1);
+                        }
+
+                        if (roomInBuilding.startsWith("邱季端")) {
+                            roomInBuilding = roomInBuilding.substring(3);
+                        }
+
                         roomCapacity = Integer.valueOf(roomRawNameInBuilding.substring(tempPos + 1,
                                 roomRawNameInBuilding.length() - 1));
                     }
 
-                    boolean[] emptyStatus = roomsIsEmpty.getOrDefault(buildingName + roomInBuilding, new boolean[12]);
+                    boolean[] emptyStatus = roomsIsEmpty.getOrDefault(buildingName + roomRawNameInBuilding, new boolean[12]);
                     html.append(roomInBuilding).append(",1996-10-31 10:00:00,0,0,").append(roomCapacity);
                     for (int i = 0; i < 12; ++i) {
                         html.append(",").append(emptyStatus[i] ? "1" : "0");
@@ -178,10 +196,6 @@ public class RoomSpy {
             lock.unlock();
             System.out.println(new Date().toString() + "  Finished: Spy on Room");
         }
-    }
-
-    private static String extractRoomName(String room) {
-        return room.substring(0, room.indexOf("("));
     }
 
     public static String getRoomHtml(String buildingName) {
